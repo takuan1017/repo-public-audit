@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "repo-public-audit"
+version = "0.1.0"
+description = "Audit a repository before making it public."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Takumi Ueshima" }
+]
+keywords = ["oss", "security", "repository", "audit", "github"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Security",
+  "Topic :: Software Development :: Version Control :: Git",
+]
+
+[project.urls]
+Homepage = "https://github.com/takuan1017/repo-public-audit"
+Issues = "https://github.com/takuan1017/repo-public-audit/issues"
+
+[project.scripts]
+repo-public-audit = "repo_public_audit.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/repo_public_audit"]
+
