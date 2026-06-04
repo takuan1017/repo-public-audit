@@ -1,6 +1,7 @@
 # repo-public-audit
 
 [![CI](https://github.com/takuan1017/repo-public-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/takuan1017/repo-public-audit/actions/workflows/ci.yml)
+[![Daily Readiness Check](https://github.com/takuan1017/repo-public-audit/actions/workflows/readiness-check.yml/badge.svg)](https://github.com/takuan1017/repo-public-audit/actions/workflows/readiness-check.yml)
 [![Weekly Maintenance](https://github.com/takuan1017/repo-public-audit/actions/workflows/weekly-maintenance.yml/badge.svg)](https://github.com/takuan1017/repo-public-audit/actions/workflows/weekly-maintenance.yml)
 
 `repo-public-audit` is a small CLI that checks a repository before you make it public.
@@ -100,6 +101,16 @@ History scanning is bounded by commit count and blob size. If a secret has ever 
 - Better language-specific secret detectors
 
 See `docs/codex-for-oss-application-plan.md` for the current maintainer roadmap.
+
+## Maintenance Automation
+
+The project runs:
+
+- CI on push and pull requests
+- a daily readiness check with history-aware audit
+- a weekly maintenance workflow that opens a pull request with a generated report
+
+Automated reports are meant to surface project health. They should not replace real feature, test, and documentation work.
 
 ## Contributing
 

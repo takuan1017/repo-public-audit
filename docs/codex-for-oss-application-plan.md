@@ -34,10 +34,20 @@ The project is useful for solo developers, maintainers, and small teams who want
 
 - Public repo with a clear README and MIT license.
 - Passing CI.
-- Scheduled weekly maintenance check.
+- Scheduled daily readiness check.
+- Scheduled weekly maintenance report PR.
 - Open roadmap issues.
 - Versioned releases.
 - Practical use case connected to OSS maintainership.
+
+## Automation Policy
+
+Automation should keep the maintainer loop tight without manufacturing fake activity.
+
+- Daily automation checks tests and public-readiness only.
+- Weekly automation creates a reviewable maintenance report PR.
+- Code changes should still be meaningful and reviewed.
+- Empty commits, cosmetic churn, and artificial contribution inflation are out of scope.
 
 ## Application Draft Notes
 
@@ -58,5 +68,5 @@ API credits would be used to prototype and evaluate repository-risk explanations
 - Review open issues.
 - Pick one small implementation or documentation task.
 - Run local tests.
-- Run `repo-public-audit . --fail-on high`.
+- Run `repo-public-audit . --history --history-commits 50 --fail-on high`.
 - Push a real change only when there is a real improvement.
