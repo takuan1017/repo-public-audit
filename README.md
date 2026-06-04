@@ -1,5 +1,8 @@
 # repo-public-audit
 
+[![CI](https://github.com/takuan1017/repo-public-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/takuan1017/repo-public-audit/actions/workflows/ci.yml)
+[![Weekly Maintenance](https://github.com/takuan1017/repo-public-audit/actions/workflows/weekly-maintenance.yml/badge.svg)](https://github.com/takuan1017/repo-public-audit/actions/workflows/weekly-maintenance.yml)
+
 `repo-public-audit` is a small CLI that checks a repository before you make it public.
 
 It is designed for maintainers who want a quick, local answer to questions like:
@@ -84,6 +87,8 @@ This project currently scans the working tree. It does not yet perform a complet
 - GitHub repository metadata checks
 - Better language-specific secret detectors
 
+See `docs/codex-for-oss-application-plan.md` for the current maintainer roadmap.
+
 ## Contributing
 
 Issues and pull requests are welcome. Start with `CONTRIBUTING.md`.
@@ -91,4 +96,3 @@ Issues and pull requests are welcome. Start with `CONTRIBUTING.md`.
 ## License
 
 MIT
-
