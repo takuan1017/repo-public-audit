@@ -16,7 +16,7 @@ The project is useful for solo developers, maintainers, and small teams who want
 
 ### Week 1: Core Utility
 
-- Add bounded Git history scanning.
+- Add bounded Git history scanning. Done in `v0.2.0` scope.
 - Add configurable allowlist rules.
 - Improve CLI output with summary counts by severity.
 - Add more tests for false positives and sensitive path detection.
@@ -60,4 +60,3 @@ API credits would be used to prototype and evaluate repository-risk explanations
 - Run local tests.
 - Run `repo-public-audit . --fail-on high`.
 - Push a real change only when there is a real improvement.
-

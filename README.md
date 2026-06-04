@@ -42,6 +42,12 @@ Fail CI when high-severity findings are present:
 repo-public-audit . --fail-on high
 ```
 
+Run a bounded Git history scan before making a repository public:
+
+```bash
+repo-public-audit . --history --history-commits 50 --fail-on high
+```
+
 ## What It Checks
 
 Current-tree risk checks:
@@ -50,6 +56,12 @@ Current-tree risk checks:
 - Sensitive filenames such as `.env`, `id_rsa`, `credentials.json`, and database dumps
 - Business-sensitive keywords in file paths and text
 - Oversized files that may be inappropriate for source control
+
+Optional Git history checks:
+
+- Risky file paths that existed in recent commits
+- Secret-like values in bounded historical blobs
+- Conservative commit and blob-size limits to keep scans usable on normal repositories
 
 OSS readiness checks:
 
@@ -77,7 +89,7 @@ repo-public-audit: 3 findings
 
 ## Scope
 
-This project currently scans the working tree. It does not yet perform a complete Git history rewrite audit. If a secret has ever been committed, treat it as exposed and rotate it.
+History scanning is bounded by commit count and blob size. If a secret has ever been committed, treat it as exposed and rotate it even if the scanner output is clean.
 
 ## Roadmap
 

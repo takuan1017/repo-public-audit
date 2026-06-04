@@ -18,5 +18,4 @@ jobs:
       - name: Run tests
         run: python -m unittest discover -s tests
       - name: Run public-readiness audit
-        run: repo-public-audit . --format json --fail-on high
-
+        run: repo-public-audit . --history --history-commits 50 --format json --fail-on high

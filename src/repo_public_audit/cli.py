@@ -31,6 +31,23 @@ def build_parser() -> argparse.ArgumentParser:
         default=1_000_000,
         help="Skip content scan and warn for files larger than this size.",
     )
+    parser.add_argument(
+        "--history",
+        action="store_true",
+        help="Also scan bounded Git history for risky paths and secret-like values.",
+    )
+    parser.add_argument(
+        "--history-commits",
+        type=int,
+        default=50,
+        help="Maximum number of commits to scan when --history is enabled.",
+    )
+    parser.add_argument(
+        "--history-max-blob-bytes",
+        type=int,
+        default=200_000,
+        help="Skip historical blobs larger than this size.",
+    )
     return parser
 
 
@@ -39,7 +56,13 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     try:
-        result = audit_repository(args.path, max_file_bytes=args.max_file_bytes)
+        result = audit_repository(
+            args.path,
+            max_file_bytes=args.max_file_bytes,
+            include_history=args.history,
+            history_commits=args.history_commits,
+            history_max_blob_bytes=args.history_max_blob_bytes,
+        )
     except Exception as exc:
         print(f"repo-public-audit: {exc}", file=sys.stderr)
         return 2
@@ -71,4 +94,3 @@ def print_text(result) -> None:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

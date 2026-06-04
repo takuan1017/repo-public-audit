@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from pathlib import Path
+import shutil
+import subprocess
 import tempfile
 import unittest
 
@@ -52,6 +54,32 @@ class ScannerTests(unittest.TestCase):
 
             self.assertEqual((), result.findings)
 
+    @unittest.skipIf(shutil.which("git") is None, "git is required for history scan tests")
+    def test_history_scan_flags_removed_secret_file(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            run_git(root, "init")
+            run_git(root, "config", "user.email", "test@example.com")
+            run_git(root, "config", "user.name", "Test Maintainer")
+
+            secret_line = "TOKEN=" + "notarealbutlongvalue"
+            (root / ".env").write_text(secret_line + "\n", encoding="utf-8")
+            run_git(root, "add", ".env")
+            run_git(root, "commit", "-m", "Add temporary environment file")
+
+            (root / ".env").unlink()
+            write_basic_oss_files(root)
+            (root / "main.py").write_text("print('clean now')\n", encoding="utf-8")
+            run_git(root, "add", ".")
+            run_git(root, "commit", "-m", "Clean public tree")
+
+            result = audit_repository(root, include_history=True, history_commits=10)
+            rules = {finding.rule for finding in result.findings}
+
+            self.assertIn("history-risky-path", rules)
+            self.assertIn("history-generic-secret-assignment", rules)
+            self.assertTrue(should_fail(result, "high"))
+
 
 def write_basic_oss_files(root: Path) -> None:
     (root / "README.md").write_text("# Demo\n", encoding="utf-8")
@@ -59,6 +87,15 @@ def write_basic_oss_files(root: Path) -> None:
     (root / "CONTRIBUTING.md").write_text("# Contributing\n", encoding="utf-8")
     (root / "SECURITY.md").write_text("# Security\n", encoding="utf-8")
     (root / "CODE_OF_CONDUCT.md").write_text("# Code of Conduct\n", encoding="utf-8")
+
+
+def run_git(root: Path, *args: str) -> None:
+    subprocess.run(
+        ["git", "-C", str(root), *args],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
 
 
 if __name__ == "__main__":
